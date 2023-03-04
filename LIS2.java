@@ -1,32 +1,62 @@
+// dp 버전
+// 대표 문제 : BOJ 11053 S2 가장 긴 증가하는 부분 수열
+// https://www.acmicpc.net/problem/11053
+
 import java.util.Arrays;
 import java.util.Scanner;
 
-public class LIS2 {
+/*	가장 긴 증가하는 부분 수열
+ * 	(LIS; Longest Increasing Subsequence)
+ * 
+ * 	동적 계획법을 이용한 풀이
+ * */
+
+public class LIS_DP {
 
 	public static void main(String[] args) {
+		
+		// 1. 입력
 		Scanner sc = new Scanner(System.in);
-		int N = sc.nextInt();
-		int[] arr = new int[N]; // 수열의 수들
-		int[] C = new int[N]; // 동적테이블 C[k] : 해당(k) 길이를 만족하는 자리(k자리)에 오는 수의 최소값 
+		int N = sc.nextInt();	// 수열의 길이
+		int[] A = new int[N];
 		
-		for (int i = 0; i < N; i++) {
-			arr[i] = sc.nextInt();
-		}
+		for (int i = 0; i < N; i++)
+			A[i] = sc.nextInt();
 		
-		int size = 0;
 		
-		for (int i = 0; i < N; i++) {
-			
-			int pos = Arrays.binarySearch(C, 0, size, arr[i]);
-			if(pos>=0) continue;
-			
-			int insertPos = Math.abs(pos)-1; // 맨뒤 또는 기존원소 대체자리
-			C[insertPos] = arr[i];
-			
-			if(insertPos == size) size++;
-		}
+		// 2. LIS (dp를 이용한 풀이)
+		int ans = LIS(A);
 		
-		System.out.println(size);
+		
+		// 3. 출력
+		System.out.println("가장 긴 증가하는 부분 수열의 길이 : " + ans);
+	}
+
+	
+	/*	매개변수
+	 * 	- 수열 A
+	 * 	
+	 * 	return
+	 * 	- 수열 A의 가장 긴 증가하는 부분 수열의 길이
+	 * */
+	private static int LIS(int[] A) {
+		
+		// 동적테이블 : 각 원소를 끝으로하는 LIS값
+		int[] dp = new int[A.length];
+		Arrays.fill(dp, 1);
+		
+		
+		for (int i = 0; i < A.length; i++)
+			for (int j = 0; j < i; j++)
+				if(A[j] < A[i])
+					dp[i] = Math.max(dp[i], dp[j] + 1);
+
+		
+		int length = 0;
+		for (int i : dp)
+			length = Math.max(length, i);
+		
+		return length;
 	}
 
 }

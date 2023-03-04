@@ -1,0 +1,7 @@
+입력1.
+ABC ABCDAB ABCDABCDABDE
+ABCDABD
+
+입력2.
+abababab
+abab

@@ -1,79 +1,80 @@
+// 대표 문제 : BOJ 1786 P5 찾기
+// https://www.acmicpc.net/problem/1786
+
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
+
+/*	KMP 개요
+ * 
+ * 	Text 문자열에서 Pattern 문자열이 일치하는 위치를 반환해주는 알고리즘
+ * */
 
 public class KMP {
 	
 	public static void main(String[] args) throws Exception {
 		
-		BufferedReader in = new BufferedReader(new InputStreamReader(System.in));
-		char[] text = in.readLine().toCharArray();
-		char[] pattern = in.readLine().toCharArray();
+		// 1. 입력
+		BufferedReader br = new BufferedReader(new InputStreamReader(System.in));
+		char[] T = br.readLine().toCharArray();	// Text
+		char[] P = br.readLine().toCharArray();	// Pattern
 		
-		int tLength = text.length, pLength = pattern.length;
 		
-		// 부분일치테이블 만들기 : KMP의 아이디어를 똑같이 적용, W에서 W를 찾는 듯한 행위를 해서...
-		int[] pi = new int[pLength];
 		
-		// i:접미사 포인터 (1부터 시작: 부분일치테이블를 만드는게 목적이므로 첫글자 틀리면 0위치로 가야하므로.)
-		// j:접두사 포인터
-	    for (int i = 1, j = 0; i < pLength; i++) {
-	        while(j > 0 && pattern[i] != pattern[j]) j = pi[j-1]; 
+		// 2. KMP
+		ArrayList<Integer> list = KMP(T, P);
+		
+		
+		
+		// 3. 출력
+		System.out.println("패턴이 일치한 개수\t: " + list.size());
+		System.out.print("패턴이 시작하는 위치\t: ");
+		for (int i : list) System.out.print(i + " ");
+	}
+	
+
+	/*	매개변수
+	 * 	- Text 문자 배열 T
+	 * 	- Pattern 문자 배열 P
+	 * 
+	 * 	return
+	 * 	: T에서 P가 일치할 때, 그 시작 위치 인덱스를 list에 담아 반환
+	 * */
+	private static ArrayList<Integer> KMP(char[] T, char[] P) {
+		
+		// 부분일치테이블 만들기
+		int[] pi = new int[P.length];
+		
+		// i : 접미사 포인터 (1부터 시작: 첫글자 틀리면 0위치로 가야하므로.)
+		// j : 접두사 포인터
+	    for (int i = 1, j = 0; i < P.length; i++) {
+	        while (j > 0 && P[i] != P[j])
+	        	j = pi[j - 1]; 
 	        
-	        if(pattern[i] == pattern[j]) pi[i] = ++j;
-	        else pi[i] = 0;
+	        if (P[i] == P[j]) 
+	        	pi[i] = ++j;
 	    }
+	    
+	    
+	    ArrayList<Integer> list = new ArrayList<Integer>();
 		
-		int cnt = 0;
-		ArrayList<Integer> list = new ArrayList<Integer>();
-		
-		// i : 텍스트 포인터
-		// j : 패턴 포인터 
-		for (int i = 0, j = 0; i < tLength; ++i) { 
+		// t : 텍스트 포인터
+		// p : 패턴 포인터 
+		for (int t = 0, p = 0; t < T.length; ++t) { 
 			
-			while(j > 0 && text[i] != pattern[j]) j = pi[j-1]; 
+			while (p > 0 && T[t] != P[p]) 
+				p = pi[p - 1]; 
 			
-			//두 글자 일치
-			if(text[i] == pattern[j]) {
-				
-				// j가 패턴의 마지막 인덱스라면 
-				if(j == pLength-1) { 
-					cnt++; // 카운트 증가
-					list.add(i-j);  
-					j=pi[j]; 
-				} 
-				else j++;
+			if (T[t] == P[p]) {
+				// 마지막 패턴 문자까지 다 맞았다면 
+				if(p == P.length - 1) { 
+					list.add(t - p);  
+					p = pi[p]; 
+				}
+				else
+					p++;
 			}
 		}
-		
-		System.out.println(cnt);
-		if(cnt > 0) {
-			System.out.println(list);
-		}
+		return list;
 	}
 }
-
-/*
-input값
-
-ababababcababaca
-ababaca
- 
-==>
-1
-[9]
-
-aaaaaab
-aaa
-
-==>
-4
-[0, 1, 2, 3]
-
-ababababcababaca
-abacabab
-
-==>
-0
-
-*/
