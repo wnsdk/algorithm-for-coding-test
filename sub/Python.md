@@ -216,26 +216,20 @@ s.remove(x)   # 값 x를 삭제
 
 <br>
 
-## 정렬
-
+## 커스텀 정렬
 ```python
-sorted(x)               # 반복 가능한 자료형 x를 정렬한 결과를 반환
-sorted(x, reverse=True) # 역순으로 정렬
-```
+arr = [(4, 0), (4, 3), (4, 2), (3, 2), (2, 1), (1, 0)]
 
-커스텀 정렬
-```python
-arr = [(4,0), (4,3), (4,2), (3,2), (2,1), (1,0)]
+ex1 = sorted(arr)									# 첫번째 요소로 정렬, 첫번째 요소가 같다면 두번째 요소로 정렬
+ex2 = sorted(x, reverse=True)                       # 역순으로 정렬
+ex3 = sorted(arr, key = lambda x : -x[1])			# 두번째 요소로만 내림차순 정렬
+ex4 = sorted(arr, key = lambda x : (x[1], x[0]))	# 두번째 요소로 정렬, 두번째 요소가 같다면 첫번째 요소로 정렬
 
-ex1 = sorted(arr)									#첫번째 요소로 정렬, 첫번째 요소가 같다면 두번째 요소로 정렬
-ex2 = sorted(arr, key = lambda x : -x[1])			#두번째 요소로만 내림차순 정렬
-ex3 = sorted(arr, key = lambda x : (x[1], x[0]))	#두번째 요소로 정렬, 두번째 요소가 같다면 첫번째 요소로 정렬
+ex5 = sorted(arr, reverse = False)	# 내림차순 정렬
+ex6 = sorted(arr, reverse = True) 	# 오름차순 정렬
 
-ex4 = sorted(arr, reverse = False)	#내림차순 정렬
-ex5 = sorted(arr, reverse = True) 	#오름차순 정렬
-
-ex6 = sorted(arr)	#arr를 정렬한 결과를 반환 (arr는 변경 없음)
-arr.sort()			#arr가 정렬됨			 (arr가 변경됨)
+ex7 = sorted(arr)	# arr를 정렬한 결과를 반환 (arr는 변경 없음)
+arr.sort()			# arr가 정렬됨			  (arr가 변경됨)
 ```
 
 <br>
