@@ -410,20 +410,11 @@ def bfs(sy, sx):
     
     ```python
     from bisect import bisect_left, bisect_right
-    
-    L = [2, 3, 6, 6, 6, 10, 12, 15]
-    
-    l = bisect_left(L, 6) 
-    r = bisect_right(L, 6)
-    print(r - l)  #3
-
-    ##################
-    from bisect import bisect_left, bisect_right
 
     l = bisect_left(arr, key)	#key값 이상인 값의 처음 등장 위치
     r = bisect_right(arr, key)	#key값 초과인 값의 처음 등장 위치
 
-    r - l						#배열에 들어있는 key값의 개수 (리스트의 count 함수보다 빠르다)
+    r - l			#배열에 들어있는 key값의 개수 (리스트의 count 함수보다 빠르다)
     ```
     
     **bisect_left()** : 목표 값보다 같거나 큰 첫 번째 값의 위치 반환
@@ -435,24 +426,6 @@ def bfs(sy, sx):
 - 직접 구현하는 방법
     
     ```python
-    # L에서 3찾기
-    L = [2, 3, 4, 5]
-    
-    left = 0
-    right = len(L) - 1
-    mid = (left + right) // 2
-    
-    while left <= right:
-        if L[mid] == 3:
-            break
-        elif L[mid] > 3:
-            right = mid - 1
-        else: # L[mid] < 3
-            left = mid + 1
-        
-        mid = (left + right) // 2
-    
-    ##################
     l = 0
     r = len(arr) - 1
     m = (l + r) // 2
