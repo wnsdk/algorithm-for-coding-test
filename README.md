@@ -32,7 +32,7 @@
 - [탐욕법](#탐욕법)
     - [활동 선택 문제](#활동-선택-문제)
 - [소수](#소수)
-- 약수와 배수 (예정)
+- [약수와 배수] (#약수와-배수)
 - [위상정렬](#위상정렬)
 - 누적 합 (예정)
 - 분할 정복 (예정)
@@ -43,7 +43,7 @@
 
 # 파이썬 문법
 
-[Python](./sub/Python.md)
+[Python](./sub/python.md)
 
 [기타](./sub/etc.md)
 
@@ -143,12 +143,94 @@ heapq.heappop(h)
 | --- | --- |
 | 비순환 그래프 | 순환하는 부분이 전혀 없음 |
 
+
+무엇을 구하는 문제인가?
+
+ 
+
+1. 연결 요소 개수 구하기
+
+for문으로 모든 노드를 돌면서, 방문한 적 없는 노드라면 bfs의 시작 노드로 대입한다.
+
+bfs 함수가 발동된 횟수가 연결 요소의 개수이다.
+
+ 
+
+2. 최단거리 구하기
+
+bfs의 큐에 현재 좌표를 append할 때, 현재 좌표까지 오는데 걸렸던 거리 d값을 같이 append한다.
+
+목적지에 도달했을 때의 d는 최단거리임이 보장된다.
+
+ 
+
+3. 경로 구하기
+
+chk 리스트는 보통, 각 노드별로 True/False 값만 담기게끔 구성하지만,
+
+각 노드별로 "이 노드에 올 때까지 걸린 경로들(자료형은 집합)"을 담을 수도 있다.
+
+ 
+
+경로만 구해야되는 문제일 수도 있고,
+
+가능한 모든 경로의 수를 구해야되는 문제일 수도 있고,
+
+세세한 경로들을 매순간 파악하고 있어야 풀리는 문제도 있을 수 있다.
+
+ 
+
+ 
+
+목적지가 정해져있는가?
+
+ 
+
+1. 목적지가 정해져 있다.
+
+단순히 탐색 노드가 목적 노드와 일치하는지만 따져서 탐색을 종료한다.
+
+ 
+
+2. 목적지가 정해져 있지 않다.
+
+목적지가 명시되어 있지 않더라도, 분명 탐색 종료 조건이 있을 것이다.
+
+탐색 종료 조건을 따로 파악해줘야 한다.
+
+ 
+
+ 
+
+자료구조인 그래프를 저장하는 방법
+
+ 
+
+1. 노드간의 연결 정보만 주어졌을 때
+
+인접 행렬(adj)로 구현한다.
+
+ 
+
+2. 격자판이 주어졌을 때
+
+격자판(board) 그대로 저장한다.
+
+이동은 dy, dx를 이용한다.
+
 # 완전 탐색
 
 - 모든 경우를 다 살펴본다!
 - 거의 같은 의미인 '브루트 포스(무차별 대입)'라는 용어로도 불린다.
 - 완전탐색은 모든 경우를 살펴보기에 시간이 오래 걸립니다. 시간을 단축시키고 싶다면 **백트래킹**을 사용한다. 백트래킹이란 탐색 과정에서 더 이상 답이 되지 않는 분기를 발견했을 때 되돌아가는 기법을 의미한다.
 - 완전탐색은 크게 반복문 / 재귀 / 큐로 구현할 수 있다.
+- 재귀(dfs)로 풀었는데 시간 / 메모리 초과나면 반복문으로 풀어보기
+
+- 조합의 가짓수를 구하는 문제는 파스칼의 삼각형 공식을 이용하여 dp로 풀 수도 있다.
+| 순열 | dfs, 백트래킹으로 구현 | 중복조합 |
+| 중복순열 | 순열과 똑같이 구현하되, 방문체크를 하지 않음 |
+| 조합 | 순열과 똑같이 구현하되, 인덱스가 오름차순을 만족하고, 방문체크를 하지 않음 |
+| 중복조합 | 순열과 똑같이 구현하되, 인덱스가 비내림차순을 만족하고, 방문체크를 하지 않음 |
 
 ## 순열
 
@@ -298,6 +380,45 @@ n개의 수 중 중복을 허용하여 r개를 뽑는 방법의 수
 
 큐
 
+```python
+# 길찾기 문제
+from collections import deque
+
+dy = (0, 1, 0, -1)
+dx = (-1, 0, 1, 0)
+chk = [[False] * X for _ in range(Y)]
+
+def is_valid_coord(y, x):
+	return 0 <= y < Y and 0 <= x < X
+
+def dfs(y, x):
+	if adj[y][x] == ans:
+    	return
+    
+    for k in range(4):
+    	ny = y + dy[k]
+        nx = x + dx[k]
+        if is_valid_coord(ny, nx) and not chk[ny][nx]:
+        	chk[ny][nx] = True
+            dfs(ny, nx)
+
+def bfs(sy, sx):
+	q = deque()
+    chk[sy][sx] = True
+    q.append((sy, sx))
+    while q:
+    	y, x = q.popleft()
+        if adj[y][x] == ans:
+        	return
+        
+        for k in range(4):
+        	ny = y + dy[k]
+        	nx = x + dx[k]
+        	if is_valid_coord(ny, nx) and not chk[ny][nx]:
+        		chk[ny][nx] = True
+            	q.append((ny, nx))
+```
+
 # 이분 탐색
 
 ## 선형 탐색
@@ -320,6 +441,14 @@ n개의 수 중 중복을 허용하여 r개를 뽑는 방법의 수
     l = bisect_left(L, 6) 
     r = bisect_right(L, 6)
     print(r - l)  #3
+
+    ##################
+    from bisect import bisect_left, bisect_right
+
+    l = bisect_left(arr, key)	#key값 이상인 값의 처음 등장 위치
+    r = bisect_right(arr, key)	#key값 초과인 값의 처음 등장 위치
+
+    r - l						#배열에 들어있는 key값의 개수 (리스트의 count 함수보다 빠르다)
     ```
     
     **bisect_left()** : 목표 값보다 같거나 큰 첫 번째 값의 위치 반환
@@ -347,6 +476,21 @@ n개의 수 중 중복을 허용하여 r개를 뽑는 방법의 수
             left = mid + 1
         
         mid = (left + right) // 2
+    
+    ##################
+    l = 0
+    r = len(arr) - 1
+    m = (l + r) // 2
+
+    while l <= r:
+        if arr[m] == key:
+            break
+        elif arr[m] > key:
+            r = m - 1
+        else:
+            l = m + 1
+        
+        m = (l + r) // 2
     ```
     
 
@@ -431,6 +575,39 @@ Longest Increasing Sequence
 [**[https://www.acmicpc.net/problem/1931](https://www.acmicpc.net/problem/1931)**](https://www.notion.so/https-www-acmicpc-net-problem-1931-b0df1f84c94e4296beea983da8ffedda)
 
 # 소수
+
+# 약수와 배수
+최대공약수 / 최소공배수
+규칙 1. x와 y의 최대공약수는 y와 x % y의 최대공약수와 같다. (유클리드 호제법)
+
+규칙 2. 두 수의 곱(x * y)는 두 수의 최대공약수와 최소공배수의 곱과 같다.
+
+ 
+
+위 두 규칙을 이용하여 아래와 같이 최대공약수와 최소공배수를 구하는 메서드를 짤 수 있습니다.
+
+```python
+# x > y
+def gcd(x, y):
+    while y > 0:
+        x, y = y, x % y
+    return x
+
+def lcm(x, y):
+    return x * y // gcd(x, y)
+```
+ 
+
+아니면 간단하게 math 라이브러리를 import해서 gcd와 lcm 메서드를 쓸 수 있습니다.
+
+(lcm 메서드는 파이썬 버전에 따라 지원하지 않을 수 있습니다. 이 경우, gcd메서드를 이용해서 최소공배수를 구하면 됩니다.)
+
+```python
+import math
+
+math.gcd(a, b)
+math.lcm(a, b)
+```
 
 # 위상정렬
 
