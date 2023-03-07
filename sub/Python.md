@@ -1,30 +1,33 @@
 # Python
 알고리즘 문제를 풀 때 유용한 문법들을 위주로 작성하였습니다.
-- 자료형
-- 입력받기
-- 리스트 컴프리헨션
-- f 문자열 포매팅
-- 문자열 ↔ 숫자
-- 아스키 코드 ↔ 문자
+- 변환
+    - [문자열 ↔ 숫자](#문자열-↔-숫자)
+    - [아스키 코드 ↔ 문자](#아스키-코드-↔-문자)
+    - [10진수 ↔ 2 8 16진수](#10진수-↔-2-8-16진수)
 - 수학
-- 기타 내장함수
-- 문자열 함수
-- 리스트 함수
-- 딕셔너리 함수
-- 집합 함수
-- 정렬
-- heapq
-- deque
-- string 변경하고 싶을 때
-- list 잡다한 스킬
-- for문
-- 최대 정수, 최소 정수, 양의 무한, 음의 무한
-- 올림, 내림, 버림, 반올림
-- 재귀호출 제한 늘리기
-- Counter
-- 10진수 ↔ 2 8 16진수
-- 더 자잘한 팁
-
+    - [수학](#수학)
+    - [올림, 내림, 버림, 반올림](#올림-내림-버림-반올림)
+    - [최대 정수, 최소 정수, 양의 무한, 음의 무한](#최대-정수-최소-정수-양의-무한-음의-무한)
+- 문자열
+    - [문자열 함수](#문자열-함수)
+    - [f 문자열 포매팅](#f-문자열-포매팅)
+    - [string 변경하고 싶을 때](#string-변경하고-싶을-때)
+- 리스트
+    - [리스트 함수](#리스트-함수)
+    - [커스텀 정렬](#커스텀-정렬)
+    - [리스트 컴프리헨션](#리스트-컴프리헨션)
+    - [list 잡다한 스킬](#list-잡다한-스킬)
+- [자료형](#자료형)
+- [입력받기](#입력받기)
+- [기타 내장함수](#기타-내장함수)
+- [딕셔너리 함수](#딕셔너리-함수)
+- [집합 함수](#집합-함수)
+- [heapq](#heapq)
+- [deque](#deque)
+- [for문](#for문)
+- [재귀호출 제한 늘리기](#재귀호출-제한-늘리기)
+- [Counter](#counter)
+- [더 자잘한 팁](#더-자잘한-팁)
 
 <br>
 
@@ -220,7 +223,7 @@ s.remove(x)   # 값 x를 삭제
 ```python
 arr = [(4, 0), (4, 3), (4, 2), (3, 2), (2, 1), (1, 0)]
 
-ex1 = sorted(arr)									# 첫번째 요소로 정렬, 첫번째 요소가 같다면 두번째 요소로 정렬
+ex1 = sorted(arr)                                               # 첫번째 요소로 정렬, 첫번째 요소가 같다면 두번째 요소로 정렬
 ex2 = sorted(x, reverse=True)                       # 역순으로 정렬
 ex3 = sorted(arr, key = lambda x : -x[1])			# 두번째 요소로만 내림차순 정렬
 ex4 = sorted(arr, key = lambda x : (x[1], x[0]))	# 두번째 요소로 정렬, 두번째 요소가 같다면 첫번째 요소로 정렬
@@ -228,8 +231,8 @@ ex4 = sorted(arr, key = lambda x : (x[1], x[0]))	# 두번째 요소로 정렬, �
 ex5 = sorted(arr, reverse = False)	# 내림차순 정렬
 ex6 = sorted(arr, reverse = True) 	# 오름차순 정렬
 
-ex7 = sorted(arr)	# arr를 정렬한 결과를 반환 (arr는 변경 없음)
-arr.sort()			# arr가 정렬됨			  (arr가 변경됨)
+ex7 = sorted(arr)   # arr를 정렬한 결과를 반환 (arr는 변경 없음)
+arr.sort()          # arr가 정렬됨			  (arr가 변경됨)
 ```
 
 <br>
@@ -258,19 +261,13 @@ heapq.heapify(list)
 ```python
 from collections import deque
 
-deq = deque()
+dq = deque()
 
-# Add element to the start
-deq.appendleft(10)
+dq.append(0)
+dq.pop()
 
-# Add element to the end
-deq.append(0)
-
-# Pop element from the start
-deq.popleft()
-
-# Pop element from the end
-deq.pop()
+dq.appendleft(10)
+dq.popleft()
 ```
 
 <br>
@@ -353,7 +350,7 @@ for idx, val in enumerate(arr, 5):
 
 # 최대 정수, 최소 정수, 양의 무한, 음의 무한
 
-```jsx
+```python
 import sys
 
 max_int = sys.maxsize
@@ -365,24 +362,23 @@ min_float = float('-inf')
 
 # 올림, 내림, 버림, 반올림
 
-※ 내림(floor) → 소수점을 버리되, 숫자가 더 작아지는 방향으로
-
+※ 내림(floor) → 소수점을 버리되, 숫자가 더 작아지는 방향으로  
 ※ 버림(trunc) → 소수점을 버리되, 0과 가까운 방향으로
 
 ```python
-round(2.55) # 3
-round(2.55, 1) # 2.6
+round(2.55)     # 3
+round(2.55, 1)  # 2.6
 
 import math
 
-math.ceil(1.5) # 2
-math.ceil(-1.5) # -1
+math.ceil(1.5)      # 2
+math.ceil(-1.5)     # -1
 
-math.floor(1.5) # 1
-math.floor(-1.5) # -2
+math.floor(1.5)     # 1
+math.floor(-1.5)    # -2
 
-math.trunc(1.5) # 1
-math.trunc(-1.5) # -1
+math.trunc(1.5)     # 1
+math.trunc(-1.5)    # -1
 ```
 
 <br>
