@@ -26,16 +26,16 @@ def dijkstra(start):
 
     while h:
         # 최단 거리가 가장 짧은 노드 찾기
-        dist, now_node = heapq.heappop(h)
+        dist1, now = heapq.heappop(h)
         
         # now 노드와 연결된 다른 인접한 노드들을 확인
-        for next_node, weight in adj[now_node]:
-            cost = dist + weight
+        for next, dist2 in adj[now]:
+            cost = dist1 + dist2
             
             # now 노드를 거쳐서 next 노드로 이동하는 것이 더 짧다면, 값 갱신
-            if cost < distance[next_node]:
-                distance[next_node] = cost
-                heapq.heappush(h, (cost, next_node))
+            if cost < distance[next]:
+                distance[next] = cost
+                heapq.heappush(h, (cost, next))
 
     return distance
 
