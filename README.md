@@ -307,9 +307,9 @@ n개의 수 중 r개를 뽑는 방법의 수
         if not m:
             print(*ans)
         else:
-            for i in range(idx + 1, n + 1):
+            for i in range(idx, n):
                 ans.append(i)
-                combination(n, m - 1, i)
+                combination(n, m - 1, i + 1)
                 ans.pop()
     
     combination(N, M, 0)
