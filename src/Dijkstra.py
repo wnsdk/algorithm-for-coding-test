@@ -20,6 +20,7 @@ for _ in range(E):
 def dijkstra(start):
     distance = [INF] * (V + 1)
     distance[start] = 0
+    visited = [False] * (V + 1)
 
     h = []
     heapq.heappush(h, (0, start))
@@ -27,6 +28,11 @@ def dijkstra(start):
     while h:
         # 최단 거리가 가장 짧은 노드 찾기
         dist1, now = heapq.heappop(h)
+
+        # 방문 체크를 하면 시간을 더 단축할 수 있음 (안해도 상관없긴 함)
+        if visited[now]:
+            continue
+        visited[now] = True
         
         # now 노드와 연결된 다른 인접한 노드들을 확인
         for next, dist2 in adj[now]:
